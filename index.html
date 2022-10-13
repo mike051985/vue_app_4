@@ -10,8 +10,12 @@
 </head>
 <body>
     <div id="app">
-        <h1>{{ header }}</h1>
-        <div class="add-item-form">
+        <div class="header">
+            <h1>{{ header }}</h1>
+            <div v-if="editing" @click="doEdit(false)" class="btn btn-cancel">Cancel</div>
+            <div v-else @click="doEdit(true)" class="btn btn-primary">Add Item</div>
+        </div>
+        <div v-if="editing" class="add-item-form">
             <input 
                 v-model="newItem" 
                 type="text" 
@@ -25,14 +29,26 @@
                 High Priority
             </label>
             <button 
-                v-on:click="items.push({id:items.length +1, label: newItem})" 
+                v-bind:disabled="newItem.length === 0"
+                v-on:click="saveItem" 
                 class="btn btn-primary"
             >
             Save Item
             </button>
         </div>
+
+        <p v-if="items.length === 0">Nice job! you've bought all your items!</p>
+
         <ul>
-            <li v-for="item in items" :key="item.id">{{ item.label }}</li>
+            <li 
+                v-for="item in reversedItems" 
+                @click="togglePurchased(item)"
+                :key="item.id"
+                :class="{strikeout: item.purchased, priority: item.highPriority}"
+                class="static-class"   
+            >
+            {{ item.label }}
+            </li>
         </ul>
     </div>
 
