@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List App | Vue JS</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ header }}</h1>
+        <div class="add-item-form">
+            <input 
+                v-model="newItem" 
+                type="text" 
+                placeholder="Add an item"
+            >
+            <label>
+                <input 
+                    type="checkbox" 
+                    v-model="newItemHighPriority" 
+                >
+                High Priority
+            </label>
+            <button 
+                v-on:click="items.push({id:items.length +1, label: newItem})" 
+                class="btn btn-primary"
+            >
+            Save Item
+            </button>
+        </div>
+        <ul>
+            <li v-for="item in items" :key="item.id">{{ item.label }}</li>
+        </ul>
+    </div>
+
+    <!--Import App-->
+    <script src="./app.js"></script>
+
+    <!-- Mount App -->
+    <script>
+        const mountedApp = app.mount('#app')
+    </script>
+</body>
+</html>
